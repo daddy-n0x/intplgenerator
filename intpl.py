@@ -10,9 +10,9 @@ import json
 import time
 import random
 
-chromedriver = Service(executable_path="C:\chromedriver.exe")
+chromedriver = Service('chromedriver.exe')
 browser = webdriver.Chrome(service=chromedriver)
-random_append = random.randint(000, 99999)
+random_append = random.randint(0, 999999)
 
 class tools:
     def create_account(login, password, recovery):
@@ -45,25 +45,16 @@ class tools:
         
         # Goes back to Username to check for errors
         error_field = WebDriverWait(browser, 2).until(EC.presence_of_element_located((By.XPATH, '/html/body/section/div[2]/div/div/div[1]/form[2]/div[1]/div[1]/div[3]/div/span[3]')))
-        print(error_field.get_attribute('textContent'))
+        # print(error_field.get_attribute('textContent')) 
         
-        # The username has already been taken. Added sleep in order to give time to the site to send a response for the username re-check.
         if error_field.get_attribute('textContent') == "Zajęty":
             u_fix = browser.find_element_by_id('loginId')
             u_fix.send_keys(random_append)
-            time.sleep(3)
-        
-        # This runs again in the very off chance that the username is still taken.
-
-            if error_field.get_attribute('textContent') == "Zajęty":
-                u_fix = browser.find_element_by_id('loginId')
-                u_fix.send_keys(random_append)
-
+            
         # Submits the form
         submit = browser.find_element_by_xpath('//*[@id="ng-app"]/body/section[1]/div[2]/div/div/div[1]/form[2]/button[1]')
         submit.click()
-        
-        # This keeps the browser open
+
         while True:
             continue
         
